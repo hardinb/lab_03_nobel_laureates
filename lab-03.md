@@ -55,6 +55,11 @@ glimpse(nobel)
 
 ### Exercise 2
 
+This code makes a new dataframe which contains only nobel laureates who
+(1) have country data available, (2) are people and not organizations, &
+(3) are still alive. By glimpsing at the data, we confirm that the new
+dataframe contains 228 people.
+
 ``` r
 nobel_living <- nobel %>%
   filter(
@@ -97,11 +102,30 @@ glimpse(nobel_living)
 
 ### Exercise 3
 
-Remove this text, and add your answer for Exercise 1 here. Add code
-chunks as needed. Don’t forget to label your code chunk. Do not use
-spaces in code chunk labels.
+``` r
+#creating USA variable
+nobel_living <- nobel_living %>%
+  mutate(country_us = if_else(country == "USA", "USA", "other"))
 
-### Exercise 4
+#filtering for sciences
+nobel_living_science <- nobel_living %>%
+  filter(category %in% c("Physics", "Medicine", "Chemistry", "Economics"))
+```
+
+``` r
+ggplot(data = nobel_living_science,
+       aes(x = country_us,
+           fill = country_us))+
+  geom_bar(color = "black")+
+  facet_wrap(~ category)+
+  coord_flip()+
+  labs(y = "Number of Nobel Prizes",
+       x = "Country at time of award",
+       color = "Country")
+```
+
+![](lab-03_files/figure-gfm/visualizing-category-country-1.png)<!-- -->
+\### Exercise 4
 
 …
 
