@@ -1,7 +1,7 @@
 Lab 03 - Nobel laureates
 ================
-Insert your name here
-Insert date here
+Ben Hardin
+1-23-2023
 
 ### Load packages and data
 
