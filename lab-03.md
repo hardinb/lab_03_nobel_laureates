@@ -135,12 +135,39 @@ ggplot(data = nobel_living_science,
 ![](lab-03_files/figure-gfm/visualizing-category-country-1.png)<!-- -->
 \### Exercise 4
 
+The code below creates a new variable that indicates whether a nobel
+laureate was born in the US or in another country. 105 Nobel prize
+winners in the sciences were born in the US.
+
 ``` r
 nobel_living_science <- nobel_living_science %>%
   mutate(born_country_us = if_else(born_country == "USA", "USA", "other"))
+
+#getting born in the usa count
+nobel_living_science %>%
+  count(born_country_us)
 ```
 
+    ## # A tibble: 2 × 2
+    ##   born_country_us     n
+    ##   <chr>           <int>
+    ## 1 other             123
+    ## 2 USA               105
+
 ### Exercise 5
+
+The bar plots below show that, of those Nobel laureates who were living
+in the US when they received their award, about 1/3 to 1/6 of them
+(depending on the specific field) were born in another country. This
+could either support or not support Buzzfeed’s claim that “many
+\[US-based Nobel laureates\] were born in other countries”, depending on
+how “many” is defined. It is true based on this graph that Nobel
+laureates are much more likely to have immigrated to the US from another
+country than vice versa, and it is true that a sizeable chunk of
+American Nobel laureates are immigrants. On the other hand, if we
+misunderstood Buzzfeed’s claim to be that MOST American Nobel laureates
+immigrated to the US from other countries, then these data would not
+support that claim.
 
 ``` r
 ggplot(data = nobel_living_science,
@@ -158,6 +185,10 @@ ggplot(data = nobel_living_science,
 ![](lab-03_files/figure-gfm/visualizing-country-by-birth-country-1.png)<!-- -->
 
 ### Exercise 6
+
+This code shows us where those American nobel laureates who immigrated
+from other countries were originally born. The two most common countries
+are Germany and the UK.
 
 ``` r
 nobel_living_science %>%
