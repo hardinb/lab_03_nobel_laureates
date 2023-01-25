@@ -102,6 +102,10 @@ glimpse(nobel_living)
 
 ### Exercise 3
 
+This code chunk creates the dataset that we need to answer the question
+in Exercise 3, showing how many nobel laureates in the sciences were
+based in the US or somewhere else when they got their prize.
+
 ``` r
 #creating USA variable
 nobel_living <- nobel_living %>%
@@ -112,27 +116,67 @@ nobel_living_science <- nobel_living %>%
   filter(category %in% c("Physics", "Medicine", "Chemistry", "Economics"))
 ```
 
+The visualization shows that, generally, nobel prizes for the sciences
+have more often been awarded to people living in the US than people
+living elsewhere. This difference is the greatest for Economics, while
+the difference is smallest for Chemistry. This supports Buzzfeed’s claim
+that “Most living Nobel laureates in the sciences are based in the US.”
+
 ``` r
 ggplot(data = nobel_living_science,
-       aes(x = country_us,
-           fill = country_us))+
+       aes(x = country_us))+
   geom_bar(color = "black")+
   facet_wrap(~ category)+
   coord_flip()+
   labs(y = "Number of Nobel Prizes",
-       x = "Country at time of award",
-       color = "Country")
+       x = "Country at time of award")
 ```
 
 ![](lab-03_files/figure-gfm/visualizing-category-country-1.png)<!-- -->
 \### Exercise 4
 
-…
+``` r
+nobel_living_science <- nobel_living_science %>%
+  mutate(born_country_us = if_else(born_country == "USA", "USA", "other"))
+```
 
 ### Exercise 5
 
-…
+``` r
+ggplot(data = nobel_living_science,
+       aes(x = country_us,
+           fill = born_country_us))+
+  geom_bar(color = "black", position = "stack")+
+  scale_fill_manual(values = c("grey", "black"))+
+  facet_wrap(~ category)+
+  coord_flip()+
+  labs(y = "Number of Nobel Prizes",
+       x = "Country at time of award",
+       fill = "Country of birth")
+```
+
+![](lab-03_files/figure-gfm/visualizing-country-by-birth-country-1.png)<!-- -->
 
 ### Exercise 6
 
-…
+``` r
+nobel_living_science %>%
+  filter(country_us == "USA", born_country_us == "other") %>%
+  count(born_country) %>%
+  arrange(desc(n))
+```
+
+    ## # A tibble: 21 × 2
+    ##    born_country       n
+    ##    <chr>          <int>
+    ##  1 Germany            7
+    ##  2 United Kingdom     7
+    ##  3 China              5
+    ##  4 Canada             4
+    ##  5 Japan              3
+    ##  6 Australia          2
+    ##  7 Israel             2
+    ##  8 Norway             2
+    ##  9 Austria            1
+    ## 10 Finland            1
+    ## # … with 11 more rows
